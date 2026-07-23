@@ -1,28 +1,50 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel de Bingo</title>
 
-<link rel="stylesheet" href="style.css">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Painel de Bingo</title>
+
+    <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
 
 <div class="container">
 
-    <h1>PAINEL DE BINGO</h1>
-<div class="toolbar">
-    <button id="fullscreen">
-        ⛶ Tela Cheia
-    </button>
-</div>
+    <div class="topbar">
 
-<div id="bingoBoard" class="board"></div>
+        <h1>Painel de Bingo</h1>
+
+        <div class="controls">
+
+            <div id="lastNumber">
+                Último:
+                <span>--</span>
+            </div>
+
+            <button id="clearBoard">
+                Limpar
+            </button>
+
+            <button id="fullscreen">
+                ⛶ Tela Cheia
+            </button>
+
+        </div>
+
+    </div>
+
     <div id="bingoBoard" class="board"></div>
 
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>

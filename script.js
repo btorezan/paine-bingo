@@ -1,59 +1,120 @@
 const board = document.getElementById("bingoBoard");
 
+const lastNumber = document.querySelector("#lastNumber span");
+
+const STORAGE_KEY = "bingo-board";
+
 const columns = [
-    {letter:"B", start:1},
-    {letter:"I", start:16},
-    {letter:"N", start:31},
-    {letter:"G", start:46},
-    {letter:"O", start:61}
+
+    {letter:"B",start:1},
+
+    {letter:"I",start:16},
+
+    {letter:"N",start:31},
+
+    {letter:"G",start:46},
+
+    {letter:"O",start:61}
+
 ];
 
-columns.forEach(col =>{
+let selected = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
-    const column = document.createElement("div");
+columns.forEach(columnData=>{
+
+    const column=document.createElement("div");
+
     column.className="column";
 
     const header=document.createElement("div");
-    header.className=`header ${col.letter}`;
-    header.innerText=col.letter;
+
+    header.className=`header ${columnData.letter}`;
+
+    header.innerText=columnData.letter;
 
     column.appendChild(header);
 
     for(let i=0;i<15;i++){
 
-        const num=document.createElement("div");
+        const number=columnData.start+i;
 
-        num.className="number";
+        const div=document.createElement("div");
 
-        num.innerText=col.start+i;
+        div.innerText=number;
 
-        num.addEventListener("click",()=>{
+        div.className=`number ${columnData.letter}`;
 
-            num.classList.toggle("selected");
+        if(selected.includes(number))
+            div.classList.add("selected");
 
-        });
+        div.onclick=()=>{
 
-        column.appendChild(num);
+            div.classList.toggle("selected");
+
+            if(div.classList.contains("selected")){
+
+                if(!selected.includes(number))
+                    selected.push(number);
+
+            }else{
+
+                selected=selected.filter(n=>n!==number);
+
+            }
+
+            localStorage.setItem(STORAGE_KEY,JSON.stringify(selected));
+
+            lastNumber.innerText=`${columnData.letter}${number}`;
+
+        };
+
+        column.appendChild(div);
 
     }
 
     board.appendChild(column);
-    
 
 });
 
-const fullscreenButton = document.getElementById("fullscreen");
+document.getElementById("clearBoard").onclick=()=>{
 
-fullscreenButton.addEventListener("click", () => {
+    if(!confirm("Limpar todas as marcações?"))
+        return;
 
-    if (!document.fullscreenElement) {
+    selected=[];
+
+    localStorage.removeItem(STORAGE_KEY);
+
+    document.querySelectorAll(".number").forEach(n=>{
+
+        n.classList.remove("selected");
+
+    });
+
+    lastNumber.innerText="--";
+
+};
+
+document.getElementById("fullscreen").onclick=()=>{
+
+    if(!document.fullscreenElement){
 
         document.documentElement.requestFullscreen();
 
-    } else {
+    }else{
 
         document.exitFullscreen();
 
     }
+
+};
+
+document.addEventListener("fullscreenchange",()=>{
+
+    const btn=document.getElementById("fullscreen");
+
+    btn.innerHTML=document.fullscreenElement
+        ? "🡼 Sair da Tela Cheia"
+        : "⛶ Tela Cheia";
 
 });
