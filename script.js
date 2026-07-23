@@ -38,5 +38,22 @@ columns.forEach(col =>{
     }
 
     board.appendChild(column);
+    
+
+});
+
+const fullscreenButton = document.getElementById("fullscreen");
+
+fullscreenButton.addEventListener("click", () => {
+
+    if (!document.fullscreenElement) {
+
+        document.documentElement.requestFullscreen();
+
+    } else {
+
+        document.exitFullscreen();
+
+    }
 
 });
